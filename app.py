@@ -1,9 +1,6 @@
 from flask import Flask,current_app, send_from_directory, render_template, request, redirect, session, url_for
 import logging
-import google.generativeai as palm
-import re
 import os
-from termcolor import colored
 from main import search, create_SOLFile
 
 
