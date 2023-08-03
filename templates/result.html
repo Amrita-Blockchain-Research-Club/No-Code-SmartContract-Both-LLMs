@@ -1,0 +1,46 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Result Page</title>
+</head>
+<body>
+    <h1>Result</h1>
+    <p>User Input: {{ user_input }}</p>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Result Page</title>
+</head>
+<body>
+    <h1>Result</h1>
+    <p>User Input: {{ user_input }}</p>
+    <p>Message:</p>
+    <pre>{{ message }}</pre>
+    <a href="{{ url_for('user_input') }}">Back</a>
+    <a href="{{ url_for('return_SOLFile') }}">Go to Solidity file</a>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result Page</title>
+    <style>
+        .button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Result</h1>
+    <p>User Input: {{ user_input }}</p>
+    <p>Message:</p>
+    <pre>{{ message }}</pre>
+    <a href="{{ url_for('user_input') }}" class="button">Back</a>
+    <a href="{{ url_for('return_SOLFile') }}" class="button">Go to Solidity file</a>
+</body>
+</html>
