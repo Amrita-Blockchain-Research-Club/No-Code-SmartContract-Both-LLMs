@@ -4,7 +4,7 @@ import re
 import os
 from termcolor import colored
 from prettytable import PrettyTable
-from key import GptKey
+from key import Bard_Key as GptKey
 
 palm.configure(api_key=GptKey)
 
@@ -26,7 +26,7 @@ def search(prompt):
     Message = completion.result
 
     history[prompt] = Message
-    print(Message)
+    # print(Message)
 
     # return user_satisfaction(Message)
     return Message
@@ -49,7 +49,7 @@ def advanced_search(prompt):
     Message = response.choices[0].message.content
 
     history[prompt] = Message
-    print(Message)
+    # print(Message)
 
     return user_satisfaction(Message.strip())
 

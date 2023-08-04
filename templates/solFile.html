@@ -1,12 +1,41 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
   <head>
     <title>Solidity File</title>
+  </style>
   </head>
   <body>
     <h1>Solidity File</h1>
     <p>Filename: {{ filename }}</p>
     <a href="{{ url_for('download_SOLFile', filename=filename) }}">Download Solidity File</a>
     <a href="{{ url_for('user_input') }}">Back</a>
+  </body>
+</html> -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Solidity File</title>
+    <style>
+      .link{
+          margin-right: 50px;
+          display: inline-block;
+          padding: 4px 8px;
+          background-color: #4CAF50;
+          color: white;
+          text-align: center;
+          text-decoration: none;
+          font-size: 16px;
+          border-radius: 5px;
+          border: none;
+          cursor: pointer;
+      }
+  </style>
+    </style>
+  </head>
+  <body>
+    <h1>Solidity File</h1>
+    <p>Filename: {{ filename }}</p>
+    <a href="{{ url_for('download_SOLFile', filename=filename) }}" class="link">Download Solidity File</a>
+    <a href="{{ url_for('user_input') }}" class="link">Back</a>
   </body>
 </html>

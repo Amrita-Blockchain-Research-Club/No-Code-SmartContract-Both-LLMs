@@ -43,3 +43,5 @@ SOLFile_2.sol
 ./Contracts/SOLFile_10.sol
 ./Contracts/SOLFile_11.sol
 ./Contracts/SOLFile_12.sol
+./Contracts/SOLFile_6.sol
+./Contracts/SOLFile_7.sol

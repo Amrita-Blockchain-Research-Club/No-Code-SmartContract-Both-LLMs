@@ -1,0 +1,32 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask App</title>
+  </head>
+  <body>
+    <h1>Advance Search ChatGPT</h1>
+    <form method="post" action="{{ url_for('user_input') }}">
+      <label for="user_input">Enter your Query:</label>
+      <input type="text" id="user_input" name="user_input">
+      <br><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatGPT - New Prompt</title>
+</head>
+<body>
+    <h1>ChatGPT - New Prompt</h1>
+    <form action="/newPrompt_ChatGPT" method="POST">
+        <label for="user_input">Enter your input:</label>
+        <input type="text" id="user_input" name="user_input">
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
