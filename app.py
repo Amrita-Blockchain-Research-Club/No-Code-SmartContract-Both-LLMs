@@ -20,10 +20,15 @@ def index():
 def user_input():
     if request.method == "POST":
         try:
+            bard_api_key = request.form.get("bard_api_key") # retrieve API key
+            chatgpt_api_key = request.form.get("chatgpt_api_key") # retrieve API secret key
             user_input = request.form.get("user_input") # retrieve query
             llm_option = request.form.get("llm_option") # retrieve LLM option
             session["user_input"] = user_input
             session["llm_option"] = llm_option
+            with open("key.py", "w") as f:
+                f.write(f"Bard_Key = '{bard_api_key}'\n")
+                f.write(f"OpenAi_Key = '{chatgpt_api_key}'\n")
             return redirect(url_for("result"))
         except Exception as e:
             logging.error(str(e))

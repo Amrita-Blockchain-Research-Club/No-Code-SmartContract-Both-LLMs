@@ -6,14 +6,13 @@ from termcolor import colored
 from prettytable import PrettyTable
 from key import Bard_Key as GptKey
 
-palm.configure(api_key=GptKey)
 
-
-models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
-model = models[0].name
+model = "models/text-bison-001"
 print(model)
 
 def search(prompt):
+    palm.configure(api_key=GptKey)
+
     print((colored("Searching for: "+prompt, 'green', attrs=['bold'])))
 
     completion = palm.generate_text(

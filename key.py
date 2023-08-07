@@ -1,2 +1,2 @@
-Bard_Key = "__Bard Key Here__"
-OpenAi_Key = "__OpenAI Key Here__"
+Bard_Key = '__Bard API Key__'
+OpenAi_Key = '__OpenAI API Key__'
