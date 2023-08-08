@@ -1,69 +1,98 @@
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-
-contract VotingSystem {
-    using SafeMath for uint256;
+contract TransactionsMonitoringSystem {
 
     // Events
-    event Voted(address voter, uint256 candidateId);
+
+    event TransactionCreated(
+        uint256 indexed transactionId,
+        address sender,
+        address recipient,
+        uint256 amount
+    );
 
     // Structs
-    struct Candidate {
-        string name;
-        uint256 votes;
+
+    struct Transaction {
+        uint256 id;
+        address sender;
+        address recipient;
+        uint256 amount;
     }
 
     // State variables
-    address payable public owner;
-    mapping(uint256 => Candidate) public candidates;
-    uint256 public openTime;
-    uint256 public closeTime;
 
-    // Modifiers
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner can call this function");
-        _;
+    mapping(uint256 => Transaction) private transactions;
+    uint256 private nextTransactionId = 1;
+
+    // Functions
+
+    /**
+     * Creates a new transaction.
+     *
+     * @param sender The address of the sender.
+     * @param recipient The address of the recipient.
+     * @param amount The amount of the transaction.
+     */
+    function createTransaction(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public {
+        // Create a new transaction.
+        Transaction memory transaction = Transaction(
+            nextTransactionId,
+            sender,
+            recipient,
+            amount
+        );
+
+        // Store the transaction in the state.
+        transactions[nextTransactionId] = transaction;
+
+        // Increment the next transaction ID.
+        nextTransactionId++;
+
+        // Emit a transaction created event.
+        emit TransactionCreated(
+            transaction.id,
+            transaction.sender,
+            transaction.recipient,
+            transaction.amount
+        );
     }
 
-    // Constructor
-    constructor(uint256 _openTime, uint256 _closeTime) {
-        owner = msg.sender;
-        openTime = _openTime;
-        closeTime = _closeTime;
+    /**
+     * Gets a transaction by its ID.
+     *
+     * @param transactionId The ID of the transaction.
+     * @return The transaction, or null if it does not exist.
+     */
+    function getTransaction(uint256 transactionId) public view returns (Transaction) {
+        return transactions[transactionId];
     }
 
-    // Public functions
-    function addCandidate(string memory _name) public onlyOwner {
-        candidates[candidates.length] = Candidate(_name, 0);
-    }
-
-    function vote(uint256 _candidateId) public {
-        require(block.timestamp >= openTime && block.timestamp <= closeTime, "Voting is not open");
-        require(ERC20(msg.sender).balanceOf(address(this)) >= 1000000000000000000, "Not enough balance to vote");
-
-        candidates[_candidateId].votes = candidates[_candidateId].votes.add(1);
-        ERC20(msg.sender).transfer(address(0), 1000000000000000000);
-
-        emit Voted(msg.sender, _candidateId);
-    }
-
-    function getCandidates() public view returns (Candidate[] memory) {
-        return candidates;
-    }
-
-    function getWinner() public view returns (Candidate memory) {
-        uint256 maxVotes = 0;
-        uint256 winnerId = 0;
-
-        for (uint256 i = 0; i < candidates.length; i++) {
-            if (candidates[i].votes > maxVotes) {
-                maxVotes = candidates[i].votes;
-                winnerId = i;
-            }
+    /**
+     * Gets all transactions.
+     *
+     * @return An array of all transactions.
+     */
+    function getAllTransactions() public view returns (Transaction[] memory) {
+        // Get all transaction IDs.
+        uint256[] memory transactionIds = new uint256[](transactions.length);
+        for (uint256 i = 0; i < transactions.length; i++) {
+            transactionIds[i] = transactions[i].id;
         }
 
-        return candidates[winnerId];
+        // Sort the transaction IDs.
+        sort(transactionIds);
+
+        // Get all transactions.
+        Transaction[] memory transactions = new Transaction[](transactionIds.length);
+        for (uint256 i = 0; i < transactionIds.length; i++) {
+            transactions[i] = transactions[transactionIds[i]];
+        }
+
+        return transactions;
     }
 }

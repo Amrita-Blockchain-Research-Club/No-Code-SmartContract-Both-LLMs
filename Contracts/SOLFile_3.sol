@@ -1,7 +1,9 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.8.0;
 
-contract Addition {
-  function add(uint a, uint b) public pure returns (uint) {
-    return a + b;
+contract HelloWorld {
+  string public message = "Hello, World!";
+
+  function getMessage() public view returns (string) {
+    return message;
   }
 }

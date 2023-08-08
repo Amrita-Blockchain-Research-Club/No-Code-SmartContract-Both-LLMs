@@ -8,12 +8,11 @@ from key import Bard_Key as GptKey
 
 
 model = "models/text-bison-001"
-print(model)
 
 def search(prompt):
     palm.configure(api_key=GptKey)
 
-    print((colored("Searching for: "+prompt, 'green', attrs=['bold'])))
+    # print((colored("Searching for: "+prompt, 'green', attrs=['bold'])))
 
     completion = palm.generate_text(
         model=model,

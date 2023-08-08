@@ -6,10 +6,10 @@ from prettytable import PrettyTable
 from key import OpenAi_Key as GptKey
 openai.api_key = GptKey
 
+
 Model = 'gpt-3.5-turbo'
 
 def search(prompt):
-    print((colored("Searching for: "+prompt, 'green', attrs=['bold'])))
 
     response=openai.ChatCompletion.create(
         model=Model,
@@ -36,9 +36,7 @@ def search(prompt):
 
 
 
-
 def advanced_search(prompt):
-    print((colored("Searching for: "+prompt, 'green', attrs=['bold'])))
 
     response = openai.ChatCompletion.create(
             model=Model,

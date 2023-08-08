@@ -1,69 +1,52 @@
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+contract Voting {
 
-contract VotingSystem {
-    using SafeMath for uint256;
+    // The address of the account that can call the `vote` function.
+    address public owner;
 
-    // Events
-    event Voted(address voter, uint256 candidateId);
+    // The list of candidates in the election.
+    string[] public candidates;
 
-    // Structs
-    struct Candidate {
-        string name;
-        uint256 votes;
+    // The mapping from each candidate's address to the number of votes they have received.
+    mapping(address => uint256) public votes;
+
+    // The constructor sets the `owner` address to the address that deployed the contract.
+    constructor() {
+        owner = msg.sender;
     }
 
-    // State variables
-    mapping(uint256 => Candidate) public candidates;
-    uint256 public totalVotes;
-
-    // Modifiers
-    modifier onlyOwner() {
-        require(msg.sender == owner(), "Only the owner can call this function");
-        _;
+    // The `addCandidate` function allows the owner to add a candidate to the election.
+    function addCandidate(string memory candidate) public onlyOwner {
+        candidates.push(candidate);
     }
 
-    // Constructor
-    constructor(address _owner) {
-        owner = _owner;
+    // The `vote` function allows a voter to cast a vote for a candidate.
+    function vote(string memory candidate) public {
+        // Check that the voter is not the owner of the contract.
+        require(msg.sender != owner);
+
+        // Check that the candidate is a valid candidate.
+        require(candidates.indexOf(candidate) != -1);
+
+        // Increment the number of votes for the candidate.
+        votes[address(this)]++;
     }
 
-    // Public functions
-    function addCandidate(string memory name) public onlyOwner {
-        uint256 candidateId = candidates.length;
-        candidates[candidateId] = Candidate(name, 0);
-    }
+    // The `getWinner` function returns the address of the candidate with the most votes.
+    function getWinner() public view returns (address) {
+        uint256 maxVotes = 0;
+        address winner = address(0);
 
-    function vote(uint256 candidateId) public {
-        require(candidates[candidateId].name != "", "Candidate does not exist");
+        for (uint256 i = 0; i < candidates.length; i++) {
+            uint256 votesForCandidate = votes[address(this)];
 
-        totalVotes = totalVotes.add(1);
-        candidates[candidateId].votes = candidates[candidateId].votes.add(1);
-
-        emit Voted(msg.sender, candidateId);
-    }
-
-    function getCandidates() public view returns (Candidate[] memory) {
-        uint256 length = candidates.length;
-        Candidate[] memory candidatesArray = new Candidate[](length);
-
-        for (uint256 i = 0; i < length; i++) {
-            candidatesArray[i] = candidates[i];
+            if (votesForCandidate > maxVotes) {
+                maxVotes = votesForCandidate;
+                winner = address(this);
+            }
         }
 
-        return candidatesArray;
+        return winner;
     }
-
-    function getCandidate(uint256 candidateId) public view returns (Candidate memory) {
-        return candidates[candidateId];
-    }
-
-    function getTotalVotes() public view returns (uint256) {
-        return totalVotes;
-    }
-
-    // Private variables
-    address private owner;
 }
