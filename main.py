@@ -11,8 +11,9 @@ model = "models/text-bison-001"
 
 def search(prompt):
     palm.configure(api_key=GptKey)
-
-    # print((colored("Searching for: "+prompt, 'green', attrs=['bold'])))
+    
+    postPromt = "{type: smart contract; programming language: solidity;}"
+    prompt = prompt+postPromt
 
     completion = palm.generate_text(
         model=model,

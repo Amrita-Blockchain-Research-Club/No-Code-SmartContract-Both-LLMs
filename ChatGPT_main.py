@@ -10,6 +10,8 @@ openai.api_key = GptKey
 Model = 'gpt-3.5-turbo'
 
 def search(prompt):
+    postPromt = "{type: smart contract; programming language: solidity;}"
+    prompt = prompt+postPromt
 
     response=openai.ChatCompletion.create(
         model=Model,
@@ -37,6 +39,9 @@ def search(prompt):
 
 
 def advanced_search(prompt):
+    
+    postPromt = "{type: smart contract; programming language: solidity;}"
+    prompt = prompt+postPromt
 
     response = openai.ChatCompletion.create(
             model=Model,
